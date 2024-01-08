@@ -11,12 +11,12 @@ class CommentArea extends Component {
     isError: false,
   };
 
-  componentDidMount = async () => {
+  fetchBooks = async () => {
     try {
       let response = await fetch("https://striveschool-api.herokuapp.com/api/comments/" + this.props.asin, {
         headers: {
           Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTcxZDRhNTBkOGEyMDAwMThhNDhhNWEiLCJpYXQiOjE3MDQ3Mjg2MTUsImV4cCI6MTcwNTkzODIxNX0.oJJHKfwdSDjGlZ00LFFDBGOkX_Nhz0VKJaAbeyMwKSc",
+            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTcxZDRhNTBkOGEyMDAwMThhNDhhNWEiLCJpYXQiOjE3MDQ3MjkzOTIsImV4cCI6MTcwNTkzODk5Mn0.ndx_fG1yIybZUywXzVQ5O7-wKxDDu1RGxqJLB0ZeumY",
         },
       });
       console.log(response);
@@ -31,6 +31,18 @@ class CommentArea extends Component {
       this.setState({ isLoading: false, isError: true });
     }
   };
+
+  /* componentDidMount = () => {
+		this.fetchBooks();
+	}; */
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.asin !== this.props.asin) {
+      // se siamo qui dentro significa che è cambiata la selezione nel menu a tendina
+      this.fetchBooks();
+      console.log("Prop diversa ==> nuova fetch");
+    }
+  }
 
   render() {
     return (
